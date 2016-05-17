@@ -4,6 +4,11 @@
 #include <sstream>
 #include <string>
 
+/*
+For port 22 you should use the number 25 according to the page below:
+http://robotic-controls.com/book/export/html/78
+*/
+
 class Gpio{
 	int portNumber;
 
