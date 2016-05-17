@@ -8,8 +8,9 @@ import RPi.GPIO as GPIO
 
 class MyServer(SimpleHTTPRequestHandler):
 	def __init__(self,req,client_addr,server):
-		GPIO.setmode(GPIO.BOARD)
-		GPIO.setup(22, GPIO.OUT)	
+		#GPIO.setmode(GPIO.BOARD)
+		GPIO.setmode(GPIO.BCM)
+		GPIO.setup(25, GPIO.OUT)	
 		SimpleHTTPRequestHandler.__init__(self,req,client_addr,server)
 
 	def do_GET(self):
@@ -19,13 +20,13 @@ class MyServer(SimpleHTTPRequestHandler):
 		action = self.rfile.read(int(self.headers.get('content-length')))
 		value = action.split("=")
 		if len(value) > 0:
-			state = GPIO.input(22)
+			state = GPIO.input(25)
 			if value[1] == 'liga':
-				if state == GPIO.HIGH:
-					GPIO.output(22, GPIO.LOW) 	
-			elif value[1] == 'desliga':
 				if state == GPIO.LOW:
-					GPIO.output(22, GPIO.HIGH)
+					GPIO.output(25, GPIO.HIGH) 	
+			elif value[1] == 'desliga':
+				if state == GPIO.HIGH:
+					GPIO.output(25, GPIO.LOW)
 		
                 SimpleHTTPServer.SimpleHTTPRequestHandler.do_GET(self)
 
