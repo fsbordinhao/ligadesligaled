@@ -67,7 +67,6 @@ class Gpio{
 		fileUnexport.open("/sys/class/gpio/unexport", std::fstream::out);
 		if(fileUnexport.is_open()){
 			fileUnexport << portNumber;		
-			std::cout << "unexport" << std::endl;
 		}
 		fileUnexport.close();
 	}
@@ -77,7 +76,6 @@ class Gpio{
 		fileExport.open("/sys/class/gpio/export", std::fstream::out);
 		if(fileExport.is_open()){
 			fileExport << portNumber;
-			std::cout << "export" << std::endl;
 		}
 		fileExport.close();
 	}
