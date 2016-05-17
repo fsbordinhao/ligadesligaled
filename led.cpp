@@ -4,11 +4,6 @@
 #include <sstream>
 #include <string>
 
-/*
-For port 22 you should use the number 25 according to the page below:
-http://robotic-controls.com/book/export/html/78
-*/
-
 class Gpio{
 	int portNumber;
 
@@ -85,8 +80,8 @@ class Gpio{
 int main(){
 	Gpio gpio(25);
 	gpio.setMode(std::string("out"));
-	gpio.setStatus(0);
-	std::cin.get();
 	gpio.setStatus(1);
+	std::cin.get();
+	gpio.setStatus(0);
 	return 0;
 }
