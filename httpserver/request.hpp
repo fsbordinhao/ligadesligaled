@@ -26,6 +26,19 @@ struct request
   int http_version_major;
   int http_version_minor;
   std::vector<header> headers;
+  std::string body;
+  int bodyLen;
+
+  std::string getHeader(std::string name) const {
+	std::string value = "0";
+	for(std::vector<header>::const_iterator it = headers.begin(); it != headers.end(); it++){
+		if((*it).name == name) {
+			return (*it).value;	
+		}
+        }
+        return value;
+  }
+
 };
 
 } // namespace server

@@ -10,6 +10,7 @@
 
 #include "request_parser.hpp"
 #include "request.hpp"
+#include <string>
 
 namespace http {
 namespace server {
@@ -276,7 +277,40 @@ request_parser::result_type request_parser::consume(request& req, char input)
       return bad;
     }
   case expecting_newline_3:
-    return (input == '\n') ? good : bad;
+     if (input == '\n')
+     {
+       req.bodyLen = std::stoi(req.getHeader("Content-Length"));
+       if(req.bodyLen > 0){
+         state_ = body_line_start;
+         return indeterminate;
+       }
+       else 
+       {
+         return good;
+       }
+     }
+     else
+     {
+       return bad;
+     }
+  case body_line_start:
+      if (req.bodyLen > 0)
+      {
+        req.body += input;
+        req.bodyLen--;
+        if (req.bodyLen == 0)
+        {
+           return good;
+        }
+        else
+        {
+           return indeterminate;
+        }
+      }
+      else
+      {
+        return good;
+      }
   default:
     return bad;
   }

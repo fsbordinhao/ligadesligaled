@@ -12,6 +12,7 @@
 #define HTTP_REQUEST_HANDLER_HPP
 
 #include <string>
+#include "gpio.hpp"
 
 namespace http {
 namespace server {
@@ -35,6 +36,8 @@ public:
 private:
   /// The directory containing the files to be served.
   std::string doc_root_;
+
+  Gpio gpio;
 
   /// Perform URL-decoding on a string. Returns false if the encoding was
   /// invalid.

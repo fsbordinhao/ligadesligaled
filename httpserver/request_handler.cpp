@@ -20,7 +20,8 @@ namespace http {
 namespace server {
 
 request_handler::request_handler(const std::string& doc_root)
-  : doc_root_(doc_root)
+  : doc_root_(doc_root),
+    gpio(25)
 {
 }
 
@@ -65,6 +66,22 @@ void request_handler::handle_request(const request& req, reply& rep)
     rep = reply::stock_reply(reply::not_found);
     return;
   }
+
+  //Handle Gpio according to body content
+  std::size_t equal = req.body.find('=');
+  if (equal != std::string::npos)
+  {
+     std::string value = req.body.substr(equal+1);
+     int status = gpio.getStatus();
+     if (status == 0){
+         if (value == "liga")
+            gpio.setStatus(1);
+     } else {
+         if (value == "desliga")
+            gpio.setStatus(0);
+     }
+  }   
+
 
   // Fill out the reply to be sent to the client.
   rep.status = reply::ok;
